@@ -1,5 +1,5 @@
-#ifndef ANALYZER_ISPY_GEMDIGI_H
-#define ANALYZER_ISPY_GEMDIGI_H
+#ifndef ANALYZER_ISPY_GEMDigi_H
+#define ANALYZER_ISPY_GEMDigi_H
 
 #include "FWCore/Framework/interface/EDAnalyzer.h"
 #include "FWCore/Utilities/interface/InputTag.h"
@@ -9,13 +9,13 @@ class ISpyGEMDigi : public edm::EDAnalyzer
 {
 public:
   explicit ISpyGEMDigi(const edm::ParameterSet&);
-  virtual ~ISpyGEMDigi(void) {}
-  
+  virtual ~ISpyGEMDigi(void){}
+
   virtual void analyze(const edm::Event&, const edm::EventSetup&);
 private:
-  edm::InputTag 		inputTag_;
-  int 				thresholdOffset_;
-  edm::EDGetTokenT<GEMDigiCollection> digiToken_;
+  edm::InputTag inputTag_;
+  edm::EDGetTokenT<GEMDigiCollection> DigiToken_;
 };
 
-#endif //ANALYZER_ISPY_GEMDIGI_H
+#endif // ANALYZER_ISPY_GEMDigi_H
+
