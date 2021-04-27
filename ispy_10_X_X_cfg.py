@@ -9,16 +9,20 @@ else:
   outPath += '/'
 
 import FWCore.ParameterSet.Config as cms
-
-process = cms.Process("ISPY")
+from Configuration.StandardSequences.Eras import eras
+process = cms.Process("ISPY", eras.Run3)
+process.load("Configuration.StandardSequences.GeometryDB_cff")
+process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
+process.GlobalTag.globaltag = '112X_mcRun3_2021_design_v14'
+#process = cms.Process("ISPY")
 
 process.load("Configuration.StandardSequences.MagneticField_cff")
-process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
-process.load("Configuration.StandardSequences.GeometryDB_cff")
+#process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
+#process.load("Configuration.StandardSequences.GeometryDB_cff")
 
 #from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
-from Configuration.AlCa.GlobalTag import GlobalTag
-process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:run3_data_promptlike', '')
+#from Configuration.AlCa.GlobalTag import GlobalTag
+#process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:run3_data_promptlike', '')
 
 import FWCore.Utilities.FileUtils as FileUtils
 
@@ -29,8 +33,9 @@ process.source = cms.Source(
     #'root://cmsxrootd.fnal.gov//store/data/Run2018B/Charmonium/AOD/17Sep2018-v1/120000/3ADC2E5A-4F1B-4546-8CB6-58DDBBC921D3.root'#CMSSW_10_6_21
      #'/store/data/Commissioning2019/Cosmics/AOD/PromptReco-v1/000/334/157/00000/67B53667-A743-3740-9B57-8D7CC0093ECD.root'#CMSSW_10_6_21
     #'/store/data/Commissioning2020/Cosmics/AOD/PromptReco-v1/000/335/443/00000/76373023-734E-B14D-9C60-3303A156A14E.root'#CMSSW_11_0_1
-    # '/store/data/Commissioning2021/Cosmics/RAW-RECO/CosmicSP-PromptReco-v1/000/340/323/00000/332a7344-2e4d-4d55-84f9-25fe66a3bd78.root'#CMSSW_11_2_3
-     '/store/data/Commissioning2021/Cosmics/AOD/PromptReco-v1/000/340/323/00000/023c2dac-e668-42a0-874d-763d963d5926.root'
+     #'/store/data/Commissioning2021/Cosmics/RAW-RECO/CosmicSP-PromptReco-v1/000/340/323/00000/332a7344-2e4d-4d55-84f9-25fe66a3bd78.root'#CMSSW_11_2_3
+#     '/store/data/Commissioning2021/Cosmics/AOD/PromptReco-v1/000/340/323/00000/023c2dac-e668-42a0-874d-763d963d5926.root'
+     '/store/data/Commissioning2021/Cosmics/RAW-RECO/CosmicTP-PromptReco-v1/000/341/340/00000/4bb83d63-392e-4d8c-b59d-89994b1cc2c8.root'
     )
 
     )
@@ -43,7 +48,7 @@ process.add_(
                         outputESFilename = cms.untracked.string('ES.ig'),
                         outputFilePath = cms.untracked.string(outPath),
                         outputIg = cms.untracked.bool(True),
-                        outputMaxEvents = cms.untracked.int32(100),
+                        outputMaxEvents = cms.untracked.int32(10),
                         )
         )
 
@@ -52,14 +57,15 @@ process.options = cms.untracked.PSet(
             )
 
 process.maxEvents = cms.untracked.PSet(
-        input = cms.untracked.int32(100)
+        input = cms.untracked.int32(10)
         )
 
 process.load("ISpy.Analyzers.ISpyEvent_cfi")
+process.load('ISpy.Analyzers.ISpyGEMDigi_cfi')
 process.load('ISpy.Analyzers.ISpyGEMRecHit_cfi')
 process.load('ISpy.Analyzers.ISpyGEMSegment_cfi')
-process.load('ISpy.Analyzers.ISpyCSCRecHit2D_cfi')
-process.load('ISpy.Analyzers.ISpyCSCSegment_cfi')
+#process.load('ISpy.Analyzers.ISpyCSCRecHit2D_cfi')
+#process.load('ISpy.Analyzers.ISpyCSCSegment_cfi')
 #process.load('ISpy.Analyzers.ISpyDTRecHit_cfi')
 #process.load('ISpy.Analyzers.ISpyDTRecSegment4D_cfi')
 #process.load('ISpy.Analyzers.ISpyEBRecHit_cfi')
@@ -69,23 +75,24 @@ process.load('ISpy.Analyzers.ISpyCSCSegment_cfi')
 #process.load('ISpy.Analyzers.ISpyHERecHit_cfi')
 #process.load('ISpy.Analyzers.ISpyHFRecHit_cfi')
 #process.load('ISpy.Analyzers.ISpyHORecHit_cfi')
-process.load('ISpy.Analyzers.ISpyMET_cfi')
-process.load('ISpy.Analyzers.ISpyPFMET_cfi')
+#process.load('ISpy.Analyzers.ISpyMET_cfi')
+#process.load('ISpy.Analyzers.ISpyPFMET_cfi')
 process.load('ISpy.Analyzers.ISpyMuon_cfi')
-process.load('ISpy.Analyzers.ISpyJet_cfi')
-process.load('ISpy.Analyzers.ISpyPFJet_cfi')
-process.load('ISpy.Analyzers.ISpyPhoton_cfi')
+#process.load('ISpy.Analyzers.ISpyJet_cfi')
+#process.load('ISpy.Analyzers.ISpyPFJet_cfi')
+#process.load('ISpy.Analyzers.ISpyPhoton_cfi')
 #process.load('ISpy.Analyzers.ISpyRPCRecHit_cfi')
-process.load('ISpy.Analyzers.ISpySuperCluster_cfi')
-
-process.load('ISpy.Analyzers.ISpyTrackExtrapolation_cfi')
-process.load('ISpy.Analyzers.ISpyTriggerEvent_cfi')
+#process.load('ISpy.Analyzers.ISpySuperCluster_cfi')
+#
+#process.load('ISpy.Analyzers.ISpyTrackExtrapolation_cfi')
+#process.load('ISpy.Analyzers.ISpyTriggerEvent_cfi')
 process.load('ISpy.Analyzers.ISpyVertex_cfi')
 
 process.ISpyGEMRecHit.iSpyGEMRecHitTag = cms.InputTag("gemRecHits")
-process.ISpyGEMSegment.iSpyGEMSegmentTag = cms.InputTag("gemSegements")
-process.ISpyCSCRecHit2D.iSpyCSCRecHit2DTag = cms.InputTag("csc2DRecHits")
-process.ISpyCSCSegment.iSpyCSCSegmentTag = cms.InputTag("cscSegments")
+process.ISpyGEMSegment.iSpyGEMSegmentTag = cms.InputTag("gemSegments")
+process.ISpyGEMDigi.iSpyGEMDigiTag = cms.InputTag("muonGEMDigis:MuonGEMDigi")
+#process.ISpyCSCRecHit2D.iSpyCSCRecHit2DTag = cms.InputTag("csc2DRecHits")
+#process.ISpyCSCSegment.iSpyCSCSegmentTag = cms.InputTag("cscSegments")
 ##process.ISpyDTRecHit.iSpyDTRecHitTag = cms.InputTag('dt1DRecHits')
 ##process.ISpyDTRecSegment4D.iSpyDTRecSegment4DTag = cms.InputTag('dt4DSegments')
 #
@@ -98,25 +105,26 @@ process.ISpyCSCSegment.iSpyCSCSegmentTag = cms.InputTag("cscSegments")
 ##process.ISpyHFRecHit.iSpyHFRecHitTag = cms.InputTag("reducedHcalRecHits:hfreco")
 ##process.ISpyHORecHit.iSpyHORecHitTag = cms.InputTag("reducedHcalRecHits:horeco")
 
-process.ISpyMET.iSpyMETTag = cms.InputTag("htMetIC5")
+#process.ISpyMET.iSpyMETTag = cms.InputTag("htMetIC5")
 process.ISpyMuon.iSpyMuonTag = cms.InputTag("muons")
 
-process.ISpyPFJet.iSpyPFJetTag = cms.InputTag('ak4PFJets')
-process.ISpyPFJet.etMin = cms.double(1.5)
-process.ISpyPFJet.etaMax = cms.double(2.8)
+#process.ISpyPFJet.iSpyPFJetTag = cms.InputTag('ak4PFJets')
+#process.ISpyPFJet.etMin = cms.double(1.5)
+#process.ISpyPFJet.etaMax = cms.double(2.8)
 
-process.ISpyPhoton.iSpyPhotonTag = cms.InputTag('photons')
+#process.ISpyPhoton.iSpyPhotonTag = cms.InputTag('photons')
 ##process.ISpyRPCRecHit.iSpyRPCRecHitTag = cms.InputTag("rpcRecHits")
-process.ISpyVertex.iSpyVertexTag = cms.InputTag('offlinePrimaryVertices')
+#process.ISpyVertex.iSpyVertexTag = cms.InputTag('offlinePrimaryVertices')
 
-process.ISpyTrackExtrapolation.iSpyTrackExtrapolationTag = cms.InputTag("trackExtrapolator")
-process.ISpyTrackExtrapolation.trackPtMin = cms.double(0.1)
+#process.ISpyTrackExtrapolation.iSpyTrackExtrapolationTag = cms.InputTag("trackExtrapolator")
+#process.ISpyTrackExtrapolation.trackPtMin = cms.double(0.1)
 
 process.iSpy = cms.Path(process.ISpyEvent*
+                        process.ISpyGEMDigi*
                         process.ISpyGEMRecHit*
                         process.ISpyGEMSegment*
-                        process.ISpyCSCRecHit2D*
-                        process.ISpyCSCSegment*
+                        #process.ISpyCSCRecHit2D*
+                        #process.ISpyCSCSegment*
                         ##process.ISpyDTRecHit*
                         ##process.ISpyDTRecSegment4D*
                         ##process.ISpyEBRecHit*
@@ -127,11 +135,11 @@ process.iSpy = cms.Path(process.ISpyEvent*
                         ##process.ISpyHFRecHit*
                         ##process.ISpyHORecHit*
                         process.ISpyMuon*
-                        process.ISpyPFJet*
-                        process.ISpyPFMET*
-                        process.ISpyPhoton*
+                        #process.ISpyPFJet*
+                        #process.ISpyPFMET*
+                        #process.ISpyPhoton*
                         ##process.ISpyRPCRecHit*
-                        process.ISpyTrackExtrapolation*
+                        #process.ISpyTrackExtrapolation*
                         process.ISpyVertex)
 
 process.schedule = cms.Schedule(process.iSpy)
